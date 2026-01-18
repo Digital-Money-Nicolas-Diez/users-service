@@ -1,6 +1,7 @@
 package dh.backend.users.application;
 
 import dh.backend.users.domain.model.user.User;
+import dh.backend.users.domain.model.user.UserStatus;
 import dh.backend.users.domain.repository.user.UserRepository;
 import dh.backend.users.infrastructure.adapter.UserAdapter;
 import dh.backend.users.infrastructure.persistence.entity.UserEntity;
@@ -31,17 +32,23 @@ public class RegisterUserUseCase {
 
     public void execute(String user) {
 
+        UserEntity savedUser = null;
+
         try {
 
             User userModel = this.adapter.jsonToUser(user);
             UserEntity userEntity = UserEntity.fromDomain(userModel);
-            UserEntity savedUser = this.repository.save(userEntity);
+            savedUser = this.repository.save(userEntity);
             accountClient.createAccount(new CreateAccountDto(savedUser.getId()));
 
         } catch (FeignException e) {
             log.error("AMQP Error during user registration: {}", e.getMessage());
             int status = e.status();
-            if (status == 400 || status == 404 || status == 401) {
+            if (status >= 400 && status < 500) {
+                if (savedUser != null) {
+                    this.repository.updateStatus(savedUser.getId(), UserStatus.ACCOUNT_FAILED);
+                }
+
                 throw new AmqpRejectAndDontRequeueException(e);
             }
 
