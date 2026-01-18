@@ -13,10 +13,10 @@ public class User {
     private final String lastName;
     private final String phone;
 
-    private final Long dni;
+    private final String dni;
     private final UserStatus status;
 
-    public User(UUID id, String email, String firstName, String lastName, Long dni, UserStatus status, String phone) {
+    public User(UUID id, String email, String firstName, String lastName, String dni, UserStatus status, String phone) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

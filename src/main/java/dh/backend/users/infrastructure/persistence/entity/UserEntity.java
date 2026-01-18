@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
-import java.util.Objects;
 import java.util.UUID;
 
 import dh.backend.users.domain.model.user.User;
@@ -40,19 +39,26 @@ public class UserEntity {
     private UserStatus status;
 
     @Column(name = "dni", nullable = true)
-    private Long dni;
+    private String dni;
 
     protected UserEntity() {
         // for JPA
     }
 
-    public UserEntity(User user) {
-        this.id = Objects.requireNonNull(user.getId(),"id field is invalid" );
-        this.email = Objects.requireNonNull(user.getEmail(),"email field is invalid" );
-        this.firstName = Objects.requireNonNull(user.getFirstName(),"firstName field is invalid" );
-        this.lastName = Objects.requireNonNull(user.getLastName(),"lastName field is invalid" );
-        this.status = Objects.requireNonNull(user.getStatus(),"status field is invalid");
-        this.dni = user.getDni();
-        this.phone = user.getPhone();
+    public static UserEntity fromDomain(User user) {
+        return new UserEntity(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhone(),
+                user.getStatus(), user.getDni());
+    }
+
+    public UserEntity(UUID id, String email, String firstName, String lastName, String phone, UserStatus status,
+            String dni) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.status = status;
+        this.dni = dni;
+
     }
 }

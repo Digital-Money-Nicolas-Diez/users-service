@@ -13,15 +13,30 @@ spring:
     username: app_user
     password: app_pass
     driver-class-name: org.postgresql.Driver
-
-jpa:
-  hibernate:
-    ddl-auto: validate   # update SOLO para dev
-  show-sql: true
-  properties:
+  security:
+    oauth2:
+      client:
+        provider: 
+          keycloak:
+            token-uri: http://localhost:8080/realms/DH_BACKEND/protocol/openid-connect/token
+        registration:
+        #canal de comunicacion con account-service
+          account-service:
+            provider: keycloak
+            client-id: users-service
+            client-secret: ulgyUAhROroQgTV7585SBQpxihelsYCN
+            authorization-grant-type: client_credentials
+        #...podria definir mas canales aca:
+        
+  jpa:
     hibernate:
-      format_sql: true
-      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: validate   # update SOLO para dev
+    show-sql: true
+    properties:
+      hibernate:
+        '[default_schema]': digital_money
+        '[format_sql]': true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
   port: 8081

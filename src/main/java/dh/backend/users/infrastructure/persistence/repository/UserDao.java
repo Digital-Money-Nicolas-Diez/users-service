@@ -1,6 +1,5 @@
 package dh.backend.users.infrastructure.persistence.repository;
 
-import dh.backend.users.domain.repository.user.UserJpaORM;
 import dh.backend.users.domain.repository.user.UserRepository;
 import dh.backend.users.infrastructure.persistence.entity.UserEntity;
 
@@ -9,19 +8,18 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JpaUserRepository implements UserRepository {
+public class UserDao implements UserRepository {
 
-    private final UserJpaORM jpa; // Implementacion del ORM (Hibernate)
+    private final UserJpaORM jpa; 
 
-    public JpaUserRepository(UserJpaORM jpa) {
+    public UserDao(UserJpaORM jpa) {
         this.jpa = jpa;
     }
 
-    // Implementacion del repositorio (dominio)
     public UserEntity save(UserEntity user) {
         try {
 
-            UserEntity userEntity = this.jpa.save(user); // Uso del ORM dentro del repositorio
+            UserEntity userEntity = this.jpa.save(user); 
             return userEntity;
 
         } catch (Exception e) {

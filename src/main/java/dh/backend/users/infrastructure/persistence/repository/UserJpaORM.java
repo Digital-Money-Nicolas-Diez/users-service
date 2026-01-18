@@ -1,4 +1,4 @@
-package dh.backend.users.domain.repository.user;
+package dh.backend.users.infrastructure.persistence.repository;
 
 import dh.backend.users.infrastructure.persistence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
