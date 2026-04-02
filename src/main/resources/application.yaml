@@ -8,6 +8,9 @@ spring:
     port: 5672
     username: guest
     password: guest
+    listener:
+      simple:
+        default-requeue-rejected: false
   datasource:
     url: jdbc:postgresql://localhost:5432/app_db?options=-c%20TimeZone=UTC
     username: app_user
@@ -21,22 +24,39 @@ spring:
             token-uri: http://localhost:8080/realms/DH_BACKEND/protocol/openid-connect/token
         registration:
         #canal de comunicacion con account-service
-          account-service:
+          feign-configuration-account-service:
             provider: keycloak
             client-id: users-service
-            client-secret: ulgyUAhROroQgTV7585SBQpxihelsYCN
+            client-secret: gMuyVAKdAqi7rJ26tf0NsWbmY5xI08D6
             authorization-grant-type: client_credentials
         #...podria definir mas canales aca:
-        
+
   jpa:
     hibernate:
-      ddl-auto: validate   # update SOLO para dev
+      ddl-auto: update   # update SOLO para dev
     show-sql: true
     properties:
       hibernate:
         '[default_schema]': digital_money
         '[format_sql]': true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  resilience4j:
+    circuitbreaker:
+      instances:
+        accountService:
+          slidingWindowSize: 10
+          minimumNumberOfCalls: 5
+          failureRateThreshold: 50
+          waitDurationInOpenState: 10s
+          permittedNumberOfCallsInHalfOpenState: 2
+          automaticTransitionFromOpenToHalfOpen: true
+
+    retry:
+      instances:
+        accountService:
+          maxAttempts: 2
+          waitDuration: 500ms
+
 
 server:
   port: 8081

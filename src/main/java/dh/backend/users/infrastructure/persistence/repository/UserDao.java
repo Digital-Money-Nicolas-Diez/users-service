@@ -20,25 +20,12 @@ public class UserDao implements UserRepository {
     }
 
     public UserEntity save(UserEntity user) {
-        try {
-
-            UserEntity userEntity = this.jpa.save(user);
-            return userEntity;
-
-        } catch (Exception e) {
-            if (e instanceof DataIntegrityViolationException) {
-                throw new AmqpRejectAndDontRequeueException(e);
-            }
-
-            throw e;
-        }
+        return this.jpa.save(user);
     }
 
     @Override
     public void updateStatus(UUID userId, UserStatus status) {
-        UserEntity user = this.jpa.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+        UserEntity user = this.jpa.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setStatus(status);
         this.jpa.save(user);
     }

@@ -18,11 +18,18 @@ public class User {
 
     public User(UUID id, String email, String firstName, String lastName, String dni, UserStatus status, String phone) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        this.firstName = this.require(firstName);
+        this.lastName = this.require(lastName);
+        this.email = this.require(email);
         this.dni = dni;
         this.phone = phone;
         this.status = status != null ? status : UserStatus.PENDING_PROFILE;
+    }
+
+    private String require(String field){
+        if (field == null || field.isEmpty()) {
+            throw new IllegalArgumentException("Field cannot be null or empty");
+        }
+        return field;
     }
 }
