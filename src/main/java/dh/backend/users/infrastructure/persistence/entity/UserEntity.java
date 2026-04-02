@@ -53,7 +53,7 @@ public class UserEntity {
     }
 
     public UserEntity(UUID id, String email, String firstName, String lastName, String phone, UserStatus status,
-            String dni) {
+                      String dni) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;
