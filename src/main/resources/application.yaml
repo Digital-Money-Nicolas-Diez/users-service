@@ -4,7 +4,7 @@ spring:
   config:
     import: "optional:configserver:"
   rabbitmq:
-    host: localhost
+    host: ${SPRING_RABBITMQ_HOST:localhost}
     port: 5672
     username: guest
     password: guest
@@ -12,7 +12,7 @@ spring:
       simple:
         default-requeue-rejected: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/app_db?options=-c%20TimeZone=UTC
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/app_db?options=-c%20TimeZone=UTC}
     username: app_user
     password: app_pass
     driver-class-name: org.postgresql.Driver
@@ -21,7 +21,7 @@ spring:
       client:
         provider: 
           keycloak:
-            token-uri: http://localhost:8080/realms/DH_BACKEND/protocol/openid-connect/token
+            token-uri: ${SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN_URI:http://localhost:8080/realms/DH_BACKEND/protocol/openid-connect/token}
         registration:
         #canal de comunicacion con account-service
           feign-configuration-account-service:
@@ -57,6 +57,10 @@ spring:
           maxAttempts: 2
           waitDuration: 500ms
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
 
 server:
   port: 8081
