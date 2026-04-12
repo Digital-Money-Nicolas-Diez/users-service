@@ -14,7 +14,7 @@ import dh.backend.users.infrastructure.web.dto.CreateAccountDto;
 )
 public interface FeignAccountClient {
 
-    @PostMapping("/api/accounts/create")
+    @PostMapping("/api/accounts")
     void createAccount(@RequestBody CreateAccountDto createAccountDto);
 
     
