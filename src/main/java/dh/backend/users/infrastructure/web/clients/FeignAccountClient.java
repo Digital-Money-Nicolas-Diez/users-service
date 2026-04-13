@@ -8,14 +8,14 @@ import dh.backend.users.infrastructure.config.OAuthFeignInterceptor;
 import dh.backend.users.infrastructure.web.dto.CreateAccountDto;
 
 @FeignClient(
-    name="accounts-service",
-    url="http://localhost:8082",
-    configuration = OAuthFeignInterceptor.class
+        name = "accounts-service",
+        url = "${ACCOUNT_SERVICE_URL:http://localhost:8082}",
+        configuration = OAuthFeignInterceptor.class
 )
 public interface FeignAccountClient {
 
     @PostMapping("/api/accounts")
     void createAccount(@RequestBody CreateAccountDto createAccountDto);
 
-    
+
 }
