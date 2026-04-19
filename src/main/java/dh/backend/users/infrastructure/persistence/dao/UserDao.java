@@ -15,10 +15,11 @@ import org.springframework.stereotype.Repository;
 public class UserDao implements UserRepository {
 
     private final UserJpa jpa;
-    private UserMapper mapper;
+    private final UserMapper mapper;
 
-    public UserDao(UserJpa jpa) {
+    public UserDao(UserJpa jpa, UserMapper mapper) {
         this.jpa = jpa;
+        this.mapper = mapper;
     }
 
     public void save(User user) {
