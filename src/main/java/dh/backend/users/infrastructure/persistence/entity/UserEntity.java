@@ -11,7 +11,6 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-import dh.backend.users.domain.model.user.User;
 import dh.backend.users.domain.model.user.UserStatus;
 
 @Setter
