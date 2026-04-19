@@ -1,26 +1,28 @@
-package dh.backend.users.infrastructure.persistence.repository;
+package dh.backend.users.infrastructure.persistence.dao;
 
+import dh.backend.users.domain.model.user.User;
 import dh.backend.users.domain.model.user.UserStatus;
 import dh.backend.users.domain.repository.user.UserRepository;
+import dh.backend.users.infrastructure.mapper.UserMapper;
 import dh.backend.users.infrastructure.persistence.entity.UserEntity;
 
 import java.util.UUID;
 
-import org.springframework.amqp.AmqpRejectAndDontRequeueException;
-import org.springframework.dao.DataIntegrityViolationException;
+import dh.backend.users.infrastructure.persistence.repository.UserJpa;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao implements UserRepository {
 
-    private final UserJpaORM jpa;
+    private final UserJpa jpa;
+    private UserMapper mapper;
 
-    public UserDao(UserJpaORM jpa) {
+    public UserDao(UserJpa jpa) {
         this.jpa = jpa;
     }
 
-    public UserEntity save(UserEntity user) {
-        return this.jpa.save(user);
+    public void save(User user) {
+        this.jpa.save(this.mapper.fromDomain(user));
     }
 
     @Override

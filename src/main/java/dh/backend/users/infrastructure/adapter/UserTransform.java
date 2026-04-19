@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
 
 @Component
-public class UserAdapter {
+public class UserTransform {
     public User jsonToUser(String jsonUser){
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(jsonUser, User.class);

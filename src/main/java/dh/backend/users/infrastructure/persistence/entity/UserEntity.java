@@ -47,11 +47,6 @@ public class UserEntity {
         // for JPA
     }
 
-    public static UserEntity fromDomain(User user) {
-        return new UserEntity(user.getId(), user.getEmail(), user.getFirstName(), user.getLastName(), user.getPhone(),
-                user.getStatus(), user.getDni());
-    }
-
     public UserEntity(UUID id, String email, String firstName, String lastName, String phone, UserStatus status,
                       String dni) {
         this.id = id;
